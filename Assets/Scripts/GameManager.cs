@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject End;
     public Text EndScoreText;
 
-    public DontDestroy DDestroy;
+    //public DontDestroy DDestroy;
 
     public int currentScore;
     public int scorePerNote;
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayAgain()
     {
-        DDestroy.isPlayAgain = true;
+        //DDestroy.isPlayAgain = true;
     }
     private IEnumerator AnimateSlider()
     {
@@ -113,11 +113,11 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        if (DDestroy.isPlayAgain)
-        {
-            First.SetActive(false);
-            Menu.SetActive(true);
-        }
+        //if (DDestroy.isPlayAgain)
+        //{
+        //    First.SetActive(false);
+        //    Menu.SetActive(true);
+        //}
     }
     IEnumerator WaitToSetFirst()
     {

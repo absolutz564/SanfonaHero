@@ -11,14 +11,11 @@ public class DontDestroy : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
-
-
     }
 
     private void Start()
     {
-        DontDestroy Instance = this;
-        Debug.Log("setou instance");
+        //DontDestroy Instance = this;
     }
 
     // Update is called once per frame
