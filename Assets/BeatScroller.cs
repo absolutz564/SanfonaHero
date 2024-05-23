@@ -10,10 +10,13 @@ public class BeatScroller : MonoBehaviour
 
     public float beatTempo;
     public bool hasStarted;
+    private RectTransform rectTransform;
+
     // Start is called before the first frame update
     void Start()
     {
-        beatTempo = beatTempo / 60f;
+        //beatTempo = beatTempo / 60f;
+        rectTransform = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -25,10 +28,12 @@ public class BeatScroller : MonoBehaviour
             {
                 hasStarted = true;
             }
-
-        } else
+        }
+        else
         {
-            this.GetComponent<RectTransform>().position -= new Vector3 (0f, beatTempo * Time.deltaTime, 0f);
+            // Calcula a direção do movimento baseado na rotação do objeto
+            Vector3 direction = transform.rotation * Vector3.down;
+            rectTransform.localPosition += direction * beatTempo * Time.deltaTime;
         }
     }
 }

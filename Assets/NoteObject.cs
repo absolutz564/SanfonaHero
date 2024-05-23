@@ -29,6 +29,14 @@ public class NoteObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (myRect != null)
+        {
+            if (Mathf.Abs(myRect.position.y) > 700f)
+            {
+                GameMask.enabled = false;
+                Debug.Log("Desabilita mascara");
+            }
+        }
         if (Input.GetKeyDown(keyToPress))
         {
             if (canBePressed)
@@ -37,7 +45,7 @@ public class NoteObject : MonoBehaviour
                 //GameManager.Instance.NoteHit();
                if (myRect != null)
                 {
-                    if (Mathf.Abs(myRect.position.y) > 780f)
+                    if (Mathf.Abs(myRect.position.y) > 778f)
                     {
                         Debug.Log("NORMAL HIT");
                         GameManager.Instance.NormalHit();
@@ -49,11 +57,17 @@ public class NoteObject : MonoBehaviour
                         GameManager.Instance.GoodHit();
                         Instantiate(GoodEffect, myRect.position, myRect.rotation, GameManager.Instance.CanvasTransform);
                     }
-                    else
+                    else if (Mathf.Abs(myRect.position.y) < 774.2f)
                     {
                         Debug.Log("PERFECT HIT");
                         GameManager.Instance.PerfectHit();
                         Instantiate(PerfectEffect, myRect.position, myRect.rotation, GameManager.Instance.CanvasTransform);
+                    }
+                    else
+                    {
+                        Debug.Log("NORMAL HIT");
+                        GameManager.Instance.NormalHit();
+                        GameObject myObject = Instantiate(HitEffect, myRect.position, myRect.rotation, GameManager.Instance.CanvasTransform);
                     }
 
                     if (GameMask != null)
