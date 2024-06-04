@@ -10,6 +10,8 @@ public class NoteObject : MonoBehaviour
     public KeyCode keyToPress;
     public Mask GameMask;
     public RectTransform myRect;
+    public Image myImage;
+    public Image LongNote;
     // Start is called before the first frame update
     public GameObject HitEffect, GoodEffect, PerfectEffect;
     void Start()
@@ -20,6 +22,7 @@ public class NoteObject : MonoBehaviour
     private void Awake()
     {
         myRect = GetComponent<RectTransform>();
+        myImage = GetComponent<Image>();
     }
     IEnumerator WaitDisableMask()
     {
@@ -29,14 +32,14 @@ public class NoteObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (myRect != null)
-        {
-            if (Mathf.Abs(myRect.position.y) > 700f)
-            {
-                GameMask.enabled = false;
-                Debug.Log("Desabilita mascara");
-            }
-        }
+        //if (myRect != null)
+        //{
+        //    if (Mathf.Abs(myRect.position.y) > 700f)
+        //    {
+        //        myImage.maskable = false;
+        //        Debug.Log("Desabilita mascara");
+        //    }
+        //}
         if (Input.GetKeyDown(keyToPress))
         {
             if (canBePressed)
@@ -70,11 +73,11 @@ public class NoteObject : MonoBehaviour
                         GameObject myObject = Instantiate(HitEffect, myRect.position, myRect.rotation, GameManager.Instance.CanvasTransform);
                     }
 
-                    if (GameMask != null)
-                    {
-                        GameMask.enabled = true;
-                        StartCoroutine(WaitDisableMask());
-                    }
+                    //if (GameMask != null)
+                    //{
+                    //    GameMask.enabled = true;
+                    //    StartCoroutine(WaitDisableMask());
+                    //}
                 }
             }
         }
@@ -86,8 +89,9 @@ public class NoteObject : MonoBehaviour
         {
             canBePressed = true;
         }
-        if (other.tag == "Wrong" && this.GetComponent<Image>().enabled)
+        if (other.tag == "Wrong" && myImage.enabled)
         {
+            GameManager.Instance.PlayWrongSound();
             GameManager.Instance.NoteMissed();
         }
     }

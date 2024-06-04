@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -75,13 +76,14 @@ public class GameManager : MonoBehaviour
         // Inicia a contagem regressiva
         StartCoroutine(CountdownCoroutine());
     }
-
+    public Image countdownImage; // Referência ao componente Image que exibirá as imagens
+    public Sprite[] countdownSprites;
     private IEnumerator CountdownCoroutine()
     {
         int countdownValue = 3;
 
-        // Exibe a contagem regressiva no texto
-        countdownText.text = countdownValue.ToString();
+        // Exibe a contagem regressiva na imagem
+        countdownImage.sprite = countdownSprites[countdownValue - 1];
 
         // Aguarda 1 segundo antes de diminuir o contador
         yield return new WaitForSeconds(1f);
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour
         // Continua a contagem regressiva até chegar a 0
         while (countdownValue > 0)
         {
-            countdownText.text = countdownValue.ToString();
+            countdownImage.sprite = countdownSprites[countdownValue - 1];
             yield return new WaitForSeconds(1f);
             countdownValue--;
         }
@@ -99,8 +101,8 @@ public class GameManager : MonoBehaviour
         // Aguarda mais 1 segundo antes de fechar o popup
         yield return new WaitForSeconds(1f);
 
-        // Desativa o popup
-        theBS.gameObject.SetActive(true);
+        // Desativa o popup e ativa o jogo
+        theBS.gameObject.SetActive(true); // Certifique-se de que este é o gameObject correto
         popup.SetActive(false);
         startPlaying = true;
         theBS.hasStarted = true;
@@ -159,8 +161,29 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
+    public TMP_Text textDisplay; // Referência ao componente TextMeshPro
+    private string currentText = ""; // Armazena o texto atual
+
     void Update()
     {
+        // Verifica se qualquer tecla foi pressionada
+        //if (Input.anyKeyDown)
+        //{
+        //    // Verifica cada tecla específica
+        //    foreach (KeyCode kcode in System.Enum.GetValues(typeof(KeyCode)))
+        //    {
+        //        if (Input.GetKeyDown(kcode))
+        //        {
+        //            currentText += "Tecla pressionada: " + kcode.ToString() + "\n";
+        //        }
+        //    }
+        //}
+
+        //// Atualiza o texto no TextMeshPro
+        //textDisplay.text = currentText;
+
+
+
         MultiText.text = "x" + currentMultiplier.ToString();
         scoreText.text = currentScore.ToString();
         EndScoreText.text = currentScore.ToString();
@@ -168,20 +191,20 @@ public class GameManager : MonoBehaviour
         {
             ReloadScene();
         }
-        if (Input.GetKeyDown(KeyCode.D) && End.activeSelf && !startPlaying)
+        if (Input.GetKeyDown(KeyCode.JoystickButton8) && End.activeSelf && !startPlaying)
         {
             ReloadScene();
         }
-        if (Input.GetKeyDown(KeyCode.D) && !startPlaying && !Menu.activeSelf && First.activeSelf)
+        if (Input.GetKeyDown(KeyCode.JoystickButton9) && !startPlaying && !Menu.activeSelf && First.activeSelf)
         {
             GoToDifficulty();
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !startPlaying && Menu.activeSelf && !popup.activeSelf)
+        else if (Input.GetKeyDown(KeyCode.JoystickButton9) && !startPlaying && Menu.activeSelf && !popup.activeSelf)
         {
             SetDifficult(0);
             GoToPopup();
         }
-        else if (Input.GetKeyDown(KeyCode.S) && !startPlaying && Menu.activeSelf && !popup.activeSelf)
+        else if (Input.GetKeyDown(KeyCode.JoystickButton8) && !startPlaying && Menu.activeSelf && !popup.activeSelf)
         {
             SetDifficult(1);
             GoToPopup();
